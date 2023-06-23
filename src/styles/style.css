@@ -1,0 +1,77 @@
+:root {
+  --headerHeight: 200px;
+  --footerHeight: 100px;
+}
+
+body {
+  background: rgb(43,133,170);
+  background: radial-gradient(circle, rgba(43,133,170,0.9808298319327731) 0%, rgba(104,154,162,1) 100%);
+}
+
+header {
+  height: var(--headerHeight);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text_white {
+  color: white;
+}
+
+.text_purple {
+  color: var(--bs-purple);
+}
+
+tr > th {
+  text-indent: 30px;
+}
+
+.btn-sort {
+  margin-left: 50px;
+  height: 25px;
+  width: 25px;
+  border: none;
+  background-image: url('./up-and-down.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+}
+
+tr > td {
+  text-indent: 20px;
+}
+
+.pagination,
+.pagination_info {
+  display: flex;
+  justify-content: center;
+}
+
+.cell_active {
+  background-color: #cfe2ff;
+  cursor: pointer;
+}
+
+.cell_active:hover {
+  background-color: #cfe2ff;
+}
+
+.pagination_dots {
+  display: flex;
+  align-items: flex-end;
+  padding-inline: 11px;
+}
+
+div.row {
+  padding-block: 10px;
+}
+
+main {
+  height: calc(100vh - var(--headerHeight) - var(--footerHeight));
+}
+
+footer {
+  height: var(--footerHeight);
+}
