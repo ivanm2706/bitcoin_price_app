@@ -5,7 +5,7 @@ import { setDelay } from '../redux/redusers/pricesSlice';
 import { Select } from './Select';
 
 export const Options = () => {
-  const { delay } = useAppSelector(state => state.priсes);
+  const { delay } = useAppSelector(state => state.prices);
   const { perPage } = useAppSelector(state => state.pagination);
 
   const dispatch = useAppDispatch();

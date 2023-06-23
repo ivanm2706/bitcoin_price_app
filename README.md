@@ -12,3 +12,5 @@ The application uses technologies such as:
 - Bootstrap
 - redux-persist library for saving to local storage
 - component approach
+
+deploy link https://ivanm2706.github.io/bitcoin_price_app/

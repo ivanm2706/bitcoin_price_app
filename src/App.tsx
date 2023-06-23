@@ -13,7 +13,7 @@ import { getBTCPrice } from './api/axiosClient';
 import { addBTCPrice } from './redux/redusers/pricesSlice';
 
 function App() {
-  const { prices, delay } = useAppSelector(state => state.priсes);
+  const { prices, delay } = useAppSelector(state => state.prices);
   const pagination = useAppSelector(state => state.pagination);
   const dispatch = useAppDispatch();
 
@@ -25,7 +25,7 @@ function App() {
   const fetchPrice = useCallback(async () => {
     try {
       const response = await getBTCPrice();
-console.log(response);
+
       dispatch(addBTCPrice(response));
       dispatch(setTotalItems(prices.length + 1));
   } catch {
