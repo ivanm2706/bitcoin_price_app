@@ -32,7 +32,7 @@ tr > th {
   height: 25px;
   width: 25px;
   border: none;
-  background-image: url('./up-and-down.png');
+  background-image: url('../images/up-and-down.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

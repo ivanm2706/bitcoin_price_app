@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks/hooks';
 import classNames from 'classnames';
 import { goToNextPage, goToPage, goToPreviousPage } from '../redux/redusers/pagination';
 import { updateVisiblePages } from '../helpers/updateVisiblePages';
 
 export const Pagination = () => {
-  const pagination = useAppSelector(state => state.pagination);
+  const { currentPage, perPage } = useAppSelector(state => state.pagination);
+  const { prices } = useAppSelector(state => state.prices);
   const dispatch = useAppDispatch();
 
-  const visiblePages = updateVisiblePages(pagination.currentPage, pagination.totalPages);
+  const totalPages = Math.ceil(prices.length / perPage);
+
+  const visiblePages = useMemo(() => {
+    return updateVisiblePages(
+      currentPage,
+      totalPages,
+    );
+  }, [currentPage, totalPages]);
 
   const handlerPreviosPage = () => dispatch(goToPreviousPage());
   const handlerNextPage = () => dispatch(goToNextPage());
@@ -24,15 +32,15 @@ export const Pagination = () => {
           <p className="fs-3 text_white">
             {'Page '}
             <span className="fs-3 text_purple">
-              {`${pagination.currentPage} `}
+              {`${currentPage} `}
             </span>
             {'of '}
             <span className="fs-3 text_purple">
-              {`${pagination.totalPages}`}
+              {`${totalPages}`}
             </span>.&nbsp;
             {'Total items: '}
             <span  className="fs-3 text_purple">
-              {`${pagination.totalItems}`}
+              {`${prices.length}`}
             </span>
           </p>
         </div>
@@ -62,10 +70,10 @@ export const Pagination = () => {
                       type="button"
                       className={classNames({
                         'page-link': true,
-                        'cell_active': page === pagination.currentPage,
+                        'cell_active': page === currentPage,
                       })}
                       onClick={() => handlerToPage(page)}
-                      disabled={page === pagination.currentPage}
+                      disabled={page === currentPage}
                     >
                       {page}
                     </button>

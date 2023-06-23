@@ -8,7 +8,7 @@ The application implements such functions for user interaction as:
 The application uses technologies such as:
 - React
 - TypeScript
-- Redax toolkit
+- Redux toolkit
 - Bootstrap
 - redux-persist library for saving to local storage
 - component approach
