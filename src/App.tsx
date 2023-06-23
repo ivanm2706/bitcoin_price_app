@@ -1,5 +1,5 @@
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Header } from './components/Header';
 import { Options } from './components/Options';
 import { Pagination } from './components/Pagination';
@@ -8,22 +8,29 @@ import { useAppDispatch, useAppSelector } from './redux/hooks/hooks';
 import './styles/style.css';
 import { OrdersSort } from './types/ordersSort';
 import { sortBTCPrices } from './helpers/sortBTCPrices';
-import { setTotalItems } from './redux/redusers/pagination';
 import { getBTCPrice } from './api/axiosClient';
 import { addBTCPrice } from './redux/redusers/pricesSlice';
 
 function App() {
   const { prices, delay } = useAppSelector(state => state.prices);
-  const pagination = useAppSelector(state => state.pagination);
+  const { currentPage, perPage } = useAppSelector(state => state.pagination);
   const dispatch = useAppDispatch();
 
   const [orders, setOrders] = useState<OrdersSort>({ order: 'DESC', title: null });
 
-  const startIndex = (pagination.currentPage - 1) * pagination.perPage;
-  const endIndex = Math.min(startIndex + pagination.perPage - 1, pagination.totalItems - 1);
+  const startIndex = useMemo(() => {
+    return (currentPage - 1) * perPage;
+  }, [currentPage, perPage]);
+
+  const endIndex = useMemo(() => {
+    return Math.min(startIndex + perPage - 1, prices.length - 1);
+  }, [perPage, prices.length, startIndex]);
   
-  const visiblePrices = sortBTCPrices(prices, orders)
-    .slice(startIndex, endIndex + 1);
+  const visiblePrices = useMemo(() => {
+    console.log(startIndex, endIndex)
+    return sortBTCPrices(prices, orders)
+      .slice(startIndex, endIndex + 1);
+  }, [prices, orders, startIndex, endIndex]);
   
   const fetchPrice = useCallback(async () => {
     console.log('Fetching price');
@@ -31,13 +38,13 @@ function App() {
       const response = await getBTCPrice();
 
       dispatch(addBTCPrice(response));
-      dispatch(setTotalItems(prices.length + 1));
   } catch {
     throw new Error('Fetching price error')
-  }}, [prices.length, dispatch]);
+  }}, [dispatch]);
 
   useEffect(() => {
     fetchPrice();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {  
