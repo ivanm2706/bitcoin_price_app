@@ -2,17 +2,20 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks/hooks';
 import classNames from 'classnames';
 import { goToNextPage, goToPage, goToPreviousPage } from '../redux/redusers/pagination';
+import { updateVisiblePages } from '../helpers/updateVisiblePages';
 
 export const Pagination = () => {
   const pagination = useAppSelector(state => state.pagination);
   const dispatch = useAppDispatch();
 
+  const visiblePages = updateVisiblePages(pagination.currentPage, pagination.totalPages);
+
+  const handlerPreviosPage = () => dispatch(goToPreviousPage());
+  const handlerNextPage = () => dispatch(goToNextPage());
+
   const handlerToPage = (page: number) => {
     dispatch(goToPage(page));
   };
-  
-  const handlerPreviosPage = () => dispatch(goToPreviousPage());
-  const handlerNextPage = () => dispatch(goToNextPage());
 
   return (
     <>
@@ -48,7 +51,7 @@ export const Pagination = () => {
                 </button>
               </li>
               
-              {pagination.visiblePages.map((page) =>
+              {visiblePages.map((page) =>
                 page < 0 ? (
                   <div className="pagination_dots" key={page}>
                     <span>...</span>
