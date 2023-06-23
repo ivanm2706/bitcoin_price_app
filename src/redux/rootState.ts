@@ -3,7 +3,7 @@ import pricesSlice from './redusers/pricesSlice';
 import paginationSlice from './redusers/pagination';
 
 const rootReducer = combineReducers({
-  priсes: pricesSlice,
+  prices: pricesSlice,
   pagination: paginationSlice,
 });
 
