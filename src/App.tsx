@@ -19,10 +19,14 @@ function App() {
 
   const [orders, setOrders] = useState<OrdersSort>({ order: 'DESC', title: null });
 
+  const startIndex = (pagination.currentPage - 1) * pagination.perPage;
+  const endIndex = Math.min(startIndex + pagination.perPage - 1, pagination.totalItems - 1);
+  
   const visiblePrices = sortBTCPrices(prices, orders)
-    .slice(pagination.startIndex, pagination.endIndex + 1);
+    .slice(startIndex, endIndex + 1);
   
   const fetchPrice = useCallback(async () => {
+    console.log('Fetching price');
     try {
       const response = await getBTCPrice();
 
@@ -31,6 +35,10 @@ function App() {
   } catch {
     throw new Error('Fetching price error')
   }}, [prices.length, dispatch]);
+
+  useEffect(() => {
+    fetchPrice();
+  }, []);
 
   useEffect(() => {  
     const timerId = setTimeout(() => fetchPrice(), delay * 60 * 1000);

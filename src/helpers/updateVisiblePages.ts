@@ -1,40 +1,41 @@
-import { PaginationState } from "../types/pagination";
 
-export const updateVisiblePages = (state: PaginationState) => {
-  state.visiblePages = [];
+export const updateVisiblePages = (currentPage: number, totalPages: number, maxPages: number = 5) => {
+  const visiblePages = [];
 
-  if (state.totalPages <= state.maxDisplayedPages) {
-    for (let i = 0; i < state.totalPages; i++) {
-      state.visiblePages.push(i + 1);
+  if (totalPages <= maxPages) {
+    for (let i = 0; i < totalPages; i++) {
+      visiblePages.push(i + 1);
     }
   } else {
-    const halfDisplayed = Math.floor(state.maxDisplayedPages / 2);
+    const halfDisplayed = Math.floor(maxPages / 2);
 
-    let startPage = Math.max(1, state.currentPage - halfDisplayed);
-    let endPage = startPage + state.maxDisplayedPages - 1;
+    let startPage = Math.max(1, currentPage - halfDisplayed);
+    let endPage = startPage + maxPages - 1;
 
-    if (endPage > state.totalPages) {
-      endPage = state.totalPages;
-      startPage = Math.max(1, endPage - state.maxDisplayedPages + 1);
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = Math.max(1, endPage - maxPages + 1);
     }
 
     for (let i = startPage; i <= endPage; i++) {
-      state.visiblePages.push(i);
+      visiblePages.push(i);
     }
 
     if (startPage > 1) {
       if (startPage > 2) {
-        state.visiblePages.unshift(-1);
+        visiblePages.unshift(-1);
       }
 
-      state.visiblePages.unshift(1);
+      visiblePages.unshift(1);
     }
-    if (endPage < state.totalPages) {
-      if (endPage < state.totalPages - 1) {
-        state.visiblePages.push(-2);
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        visiblePages.push(-2);
       }
 
-      state.visiblePages.push(state.totalPages);
+      visiblePages.push(totalPages);
     }
   }
+
+  return visiblePages;
 };
