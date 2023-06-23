@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/bitcoin_price_app/static/css/main.0779f361.css",
+    "main.js": "/bitcoin_price_app/static/js/main.41f694df.js",
+    "static/media/up-and-down.png": "/bitcoin_price_app/static/media/up-and-down.a197bbf308dbf33f0699.png",
+    "index.html": "/bitcoin_price_app/index.html",
+    "main.0779f361.css.map": "/bitcoin_price_app/static/css/main.0779f361.css.map",
+    "main.41f694df.js.map": "/bitcoin_price_app/static/js/main.41f694df.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0779f361.css",
+    "static/js/main.41f694df.js"
+  ]
+}
