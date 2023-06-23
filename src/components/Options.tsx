@@ -2,21 +2,22 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks/hooks';
 import { setPerPage } from '../redux/redusers/pagination';
 import { setDelay } from '../redux/redusers/pricesSlice';
+import { selectPagination, selectPrices } from '../redux/selectors/selectors';
 import { Select } from './Select';
 
 export const Options = () => {
-  const { delay } = useAppSelector(state => state.prices);
-  const { perPage } = useAppSelector(state => state.pagination);
+  const { delay } = useAppSelector(selectPrices);
+  const { perPage } = useAppSelector(selectPagination);
 
   const dispatch = useAppDispatch();
 
-  const handlerChangeInterval = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(setDelay(+event.target.value || 1));
-  };
+  const handlerChangeInterval = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => dispatch(setDelay(+event.target.value || 1));
 
-  const handlerChangeRecordsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(setPerPage(+event.target.value));
-  };
+  const handlerChangeRecordsPerPage = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => dispatch(setPerPage(+event.target.value));
 
   return (
     <div className="row">

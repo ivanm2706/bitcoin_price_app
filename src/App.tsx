@@ -10,30 +10,28 @@ import { OrdersSort } from './types/ordersSort';
 import { sortBTCPrices } from './helpers/sortBTCPrices';
 import { getBTCPrice } from './api/axiosClient';
 import { addBTCPrice } from './redux/redusers/pricesSlice';
+import { selectPagination, selectPrices } from './redux/selectors/selectors';
 
 function App() {
-  const { prices, delay } = useAppSelector(state => state.prices);
-  const { currentPage, perPage } = useAppSelector(state => state.pagination);
+  const { prices, delay } = useAppSelector(selectPrices);
+  const { currentPage, perPage } = useAppSelector(selectPagination);
   const dispatch = useAppDispatch();
 
   const [orders, setOrders] = useState<OrdersSort>({ order: 'DESC', title: null });
 
-  const startIndex = useMemo(() => {
-    return (currentPage - 1) * perPage;
-  }, [currentPage, perPage]);
+  const startIndex = useMemo(() => (
+    (currentPage - 1) * perPage
+  ), [currentPage, perPage]);
 
-  const endIndex = useMemo(() => {
-    return Math.min(startIndex + perPage - 1, prices.length - 1);
-  }, [perPage, prices.length, startIndex]);
+  const endIndex = useMemo(() => (
+    Math.min(startIndex + perPage - 1, prices.length - 1)
+  ), [perPage, prices.length, startIndex]);
   
-  const visiblePrices = useMemo(() => {
-    console.log(startIndex, endIndex)
-    return sortBTCPrices(prices, orders)
-      .slice(startIndex, endIndex + 1);
-  }, [prices, orders, startIndex, endIndex]);
+  const visiblePrices = useMemo(() => (
+    sortBTCPrices(prices, orders).slice(startIndex, endIndex + 1)
+  ), [prices, orders, startIndex, endIndex]);
   
   const fetchPrice = useCallback(async () => {
-    console.log('Fetching price');
     try {
       const response = await getBTCPrice();
 

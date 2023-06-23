@@ -3,20 +3,20 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks/hooks';
 import classNames from 'classnames';
 import { goToNextPage, goToPage, goToPreviousPage } from '../redux/redusers/pagination';
 import { updateVisiblePages } from '../helpers/updateVisiblePages';
+import { selectPagination, selectPrices } from '../redux/selectors/selectors';
 
 export const Pagination = () => {
-  const { currentPage, perPage } = useAppSelector(state => state.pagination);
-  const { prices } = useAppSelector(state => state.prices);
+  const { currentPage, perPage } = useAppSelector(selectPagination);
+  const { prices } = useAppSelector(selectPrices);
   const dispatch = useAppDispatch();
 
-  const totalPages = Math.ceil(prices.length / perPage);
+  const totalPages = useMemo(() => (
+    Math.ceil(prices.length / perPage)
+  ), [prices.length, perPage]);
 
-  const visiblePages = useMemo(() => {
-    return updateVisiblePages(
-      currentPage,
-      totalPages,
-    );
-  }, [currentPage, totalPages]);
+  const visiblePages = useMemo(() => (
+    updateVisiblePages(currentPage, totalPages)
+  ), [currentPage, totalPages]);
 
   const handlerPreviosPage = () => dispatch(goToPreviousPage());
   const handlerNextPage = () => dispatch(goToNextPage());
